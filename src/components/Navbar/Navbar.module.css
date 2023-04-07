@@ -1,0 +1,40 @@
+.container {
+  background-color: blue;
+  padding: 1rem;
+  color: white;
+}
+
+.navbar__brand {
+  margin-bottom: 1rem;
+}
+
+.navbar__list {
+  list-style: none;
+}
+
+.navbar__item {
+  margin-bottom: 1rem;
+}
+
+/* Medium screnn */
+@media (min-width: 768px) {
+  .navbar {
+    display: flex;
+    direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar__list {
+    display: flex;
+    direction: row;
+  }
+
+  .navbar__item {
+    margin: 0 1rem;
+  }
+
+  .navbar__brand {
+    margin: 0;
+  }
+}
