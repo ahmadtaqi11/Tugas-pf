@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Counter() {
   // Membuat variabel state
@@ -12,6 +12,20 @@ function Counter() {
     // Untuk mengubah state
     setHasil(hasil + 1);
   }
+
+  /**
+   * useEffect dijalankan pada lifecycle mount dan update.
+   */
+  function updateDOM() {
+    console.log("lifecycle: Dimount");
+
+    // Melakukan side effect: Mengakses DOM
+    document.title = `Hasil: ${hasil}`;
+  }
+
+  useEffect(updateDOM, [hasil]);
+
+  console.log("Lifecycle: Dirender");
 
   return (
     <div>

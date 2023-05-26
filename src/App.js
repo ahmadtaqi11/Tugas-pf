@@ -10,12 +10,6 @@ import theme from "./components/utils/constants/theme";
 import GlobalStyle from "./components/GlobalStyle";
 
 function App() {
-  /**
-   * Manampilkan halaman home
-   * Tag div bisa diganti dengan <>
-   * Tag <> adalah React fragment
-   */
-
   return (
     <>
       <ThemeProvider theme={theme}>

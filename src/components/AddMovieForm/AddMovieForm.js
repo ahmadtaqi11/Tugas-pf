@@ -1,96 +1,100 @@
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import Alert from "../Alert/Alert";
+import Button from "../ui/Button";
 import styles from "./AddMovieForm.module.css";
 
 function AddMovieForm(props) {
   // Destructing props
   const { movies, setMovies } = props;
 
-  // Membuat state title
-  const [title, setTitle] = useState("");
+  // Membuat state object
+  const [formData, setFormData] = useState({
+    title: "",
+    date: "",
+    poster: "",
+    genre: "horror",
+  });
 
-  // Membuat state data
-  const [date, setDate] = useState("");
+  // Membuat fungsi handleChange untuk menghandel semua input
+  function handleChange(e) {
+    const { name, value } = e.target;
 
-  // Membuat state picture
-  const [picture, setPicture] = useState("");
-
-  // Membuat state genre
-  const [genre, setGenre] = useState("");
-
-  // Membuat state title, date, genre, dan picture error/empty
-  const [isTitleError, setIsTitleError] = useState(false);
-  const [isDateError, setIsDateError] = useState(false);
-  const [isPictureError, setIsPictureError] = useState(false);
-  const [isGenreError, setIsGenreError] = useState(false);
-
-  // Membuat fungsi handleTitle
-  function handleTitle(e) {
-    setTitle(e.target.value);
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   }
 
-  // Membuat fungsi handleDate
-  function handleDate(e) {
-    setDate(e.target.value);
+  // Membuat state object title, date, dan poster error/empty
+  const [formError, setFormError] = useState({
+    isTitleError: false,
+    isDateError: false,
+    isPosterError: false,
+  });
+
+  const { isTitleError, isDateError, isPosterError } = formError;
+
+  const { title, date, poster, genre } = formData;
+
+  function validate() {
+    // Jika title kosong, maka set error title true
+    if (title === "") {
+      setFormError({
+        ...formError,
+        isTitleError: true,
+      });
+      return false;
+    }
+    //jika date kosong, maka set error title true
+    else if (date === "") {
+      setFormError({
+        ...formError,
+        isTitleError: false,
+        isDateError: true,
+      });
+      return false;
+    }
+    //jika poster kosong, maka set error title true
+    else if (poster === "") {
+      setFormError({
+        ...formError,
+        isTitleError: false,
+        isDateError: false,
+        isPosterError: true,
+      });
+      return false;
+    } else {
+      setFormError({
+        ...formError,
+        isTitleError: false,
+        isDateError: false,
+        isPosterError: false,
+      });
+      return true;
+    }
   }
 
-  // Membuat fungsi handlePicture
-  function handlePicture(e) {
-    setPicture(e.target.value);
-  }
+  function addMovie() {
+    // Siapkan movie yang ingin diinput
+    const movie = {
+      id: nanoid(),
+      title: title,
+      year: date,
+      type: "Movie",
+      poster: poster,
+      genre: genre,
+    };
 
-  // Membuat fungsi handleGenre
-  function handleGenre(e) {
-    setGenre(e.target.value);
+    // Add movie to movies;
+    setMovies([...movies, movie]);
   }
 
   function handleSubmit(e) {
     // Mencegah prilaku default: refresh page
     e.preventDefault();
 
-    // Jika title kosong, maka set error title true
-    if (title === "") {
-      setIsTitleError(true);
-    }
-    // Jika date kosong, maka set error date true
-    else if (date === "") {
-      setIsTitleError(false);
-      setIsDateError(true);
-    }
-    // Jika picture kosong, maka set error picture true
-    else if (picture === "") {
-      setIsTitleError(false);
-      setIsDateError(false);
-      setIsPictureError(true);
-    }
-    // Jika genre kosong, maka set error picture true
-    else if (genre === "") {
-      setIsTitleError(false);
-      setIsDateError(false);
-      setIsPictureError(false);
-      setIsGenreError(true);
-    }
-    // Jika tidak kosong, tambah data
-    else {
-      // Siapkan movie yang ingin diinput
-      const movie = {
-        id: nanoid(),
-        title: title,
-        year: date,
-        type: "Movie",
-        poster: picture,
-        genre: genre,
-      };
-
-      setMovies([...movies, movie]);
-      setIsTitleError(false);
-      setIsDateError(false);
-      setIsPictureError(false);
-      setIsGenreError(false);
-
-      console.log(movie);
-    }
+    validate() && addMovie();
   }
 
   return (
@@ -115,8 +119,9 @@ function AddMovieForm(props) {
               <br />
               <input
                 className={styles.movieform__forminput}
-                onChange={handleTitle}
+                onChange={handleChange}
                 type="text"
+                name="title"
                 value={title}
               />
               <br />
@@ -131,8 +136,9 @@ function AddMovieForm(props) {
               <br />
               <input
                 className={styles.movieform__forminput}
-                onChange={handleDate}
+                onChange={handleChange}
                 type="number"
+                name="date"
                 value={date}
               />
               <br />
@@ -142,22 +148,23 @@ function AddMovieForm(props) {
                */}
               {isDateError && <Alert>Date can't be empty</Alert>}
             </div>
-            <div className={styles.movieform__picturegroup}>
+            <div className={styles.movieform__postergroup}>
               <label className={styles.movieform__formlabel}>Poster</label>
               <br />
               <input
                 className={styles.movieform__forminput}
-                onChange={handlePicture}
+                onChange={handleChange}
                 type="text"
-                value={picture}
+                name="poster"
+                value={poster}
                 placeholder="Link here"
               />
               <br />
               {/**
-               * Jika error picture true: maka muncul error
+               * Jika error poster true: maka muncul error
                * Jika tidak, munculkan string kosong
                */}
-              {isPictureError && <Alert>Picture can't be empty</Alert>}
+              {isPosterError && <Alert>Poster can't be empty</Alert>}
             </div>
             <div className={styles.movieform__genregroup}>
               <label className={styles.movieform__formlabel}>Genre</label>
@@ -166,22 +173,20 @@ function AddMovieForm(props) {
                 className={styles.movieform__genre}
                 name="genre"
                 id="genre"
-                onChange={handleGenre}
+                onChange={handleChange}
                 value={genre}
                 placeholder="genre"
               >
-                <option value="" disabled hidden>
-                  Choose genre
-                </option>
                 <option value="horror">Horror</option>
                 <option value="romance">Romance</option>
                 <option value="comedy">Comedy</option>
                 <option value="action">Action</option>
                 <option value="drama">Drama</option>
               </select>
-              {isGenreError && <Alert>Please choose genre</Alert>}
             </div>
-            <button className={styles.movieform__button}>Add</button>
+            <Button variant="secondary" full size="md">
+              Add
+            </Button>
           </form>
         </div>
       </section>

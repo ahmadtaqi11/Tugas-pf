@@ -4,22 +4,7 @@
 }
 
 .movies__title {
-  color: blue;
-  margin-bottom: 1rem;
-  font-size: 2.5rem;
-}
-
-.movie_title {
-  margin-bottom: 1rem;
-}
-
-.movie__date {
-  margin-bottom: 1rem;
-}
-
-.movie__image {
-  max-width: 100%;
-  border-radius: 10px;
+  color: #ff1622;
   margin-bottom: 1rem;
 }
 

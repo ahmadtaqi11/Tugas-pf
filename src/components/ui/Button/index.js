@@ -4,11 +4,11 @@ import { css } from "styled-components";
 
 // Buat component button
 const Button = styled.button`
-  padding: 0.5rem 1rem;
   border-radius: 5px;
   border: none;
   color: white;
   margin-bottom: 1rem;
+  display: inline-block;
   cursor: pointer;
 
   // Akses props variant

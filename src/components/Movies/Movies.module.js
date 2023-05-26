@@ -1,4 +1,4 @@
-import Movie from "../Movie/Movie";
+import Movie from "../Movie/Movie.module";
 import styles from "./Movies.module.css";
 import { nanoid } from "nanoid";
 
